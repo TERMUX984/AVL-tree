@@ -1,1 +1,45 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define size 10
+int h[size] = {NULL};
 
+void insert(){
+int key,hkey,h2key,i,index;
+printf("\nEnter the value to be inserted\n");
+scanf("%d",&key);
+hkey = key%size;
+h2key =7-(key%7);
+for(i=0;i<size;i++){
+index = (hkey+(i*h2key))%size;
+if(h[index] == NULL){
+h[index] = key;
+break;
+}
+}
+if(i == size){
+printf("\nElement cannot be inserted into the table\n");
+}
+}
+void display(){
+int i;
+for(i=0;i<size;i++){
+printf("\n at index %d value = %d",i,h[i]);
+}
+}
+int main(){
+int opt;
+while(1){
+printf("\nEnter 1.Insert\t2.Display\t3.Exit\n");
+scanf("%d",&opt);
+switch(opt){
+case 1:
+insert();
+break;
+case 2:
+display();
+break;
+case 3:
+exit(0);
+}
+}
+}
