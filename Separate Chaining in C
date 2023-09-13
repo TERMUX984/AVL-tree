@@ -1,61 +1,84 @@
 #include<stdio.h>
 #include<stdlib.h>
 #define size 10
-struct node{
-int data;
-struct node *next;
+
+struct node {
+    int data;
+    struct node *next;
 };
 struct node *chain[size];
+void init() {
+    int i;
+    for (i = 0; i < size; i++) {
+        chain[i] = NULL;
+    }
+}
+void insert(int value) {
+    int key = value % size;
+    struct node *new = (struct node*)malloc(sizeof(struct node));
+    new->data = value;
+    new->next = NULL;
+    if (chain[key] == NULL) {
+        chain[key] = new;
+    } else {
+        struct node *temp = chain[key];
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = new;
+    }
+}
+void delete(int value) {
+    int key = value % size;
+    struct node *temp = chain[key];
+    struct node *prev = NULL;
+    while (temp != NULL && temp->data != value) {
+        prev = temp;
+        temp = temp->next;
+    }
+    if (temp == NULL) {
+        printf("Value %d not found.\n", value);
+        return;
+    }
+    if (prev == NULL) {
+        chain[key] = temp->next;
+    } else {
+        prev->next = temp->next;
+    }
+    free(temp);
+    printf("Value %d deleted.\n", value);
+}
 
-void init(){
-int i;
-for(i=0;i<size;i++){
-chain[i] = NULL;
-}
-}
-void insert(int value){
-int i;
-struct node *new = (struct node*)malloc(sizeof(struct node));
-new->data = value;
-new->next = NULL;
-
-int key = value % size;
-if(chain[key] == NULL){
-chain[key] = new;
-}
-else{
-struct node *temp = chain[key];
-while(temp->next != NULL){
-temp = temp->next;
-}
-temp->next = new;
-}
+void print() {
+    int i;
+    for (i = 0; i < size; i++) {
+        printf("Chain[%d] -->", i);
+        struct node *temp = chain[i];
+        while (temp != NULL) {
+            printf("%d -->", temp->data);
+            temp = temp->next;
+        }
+        printf("NULL\n");
+    }
 }
 
-void print(){
-int i;
-for(i=0;i<size;i++){
-printf("Chain[%d] -->",i);
-struct node *temp = chain[i];
-while(temp != NULL){
-printf("%d -->",temp->data);
-temp = temp->next;
-}
-printf("NULL\n");
-}
-}
+int main() {
+    init();
+    insert(20);
+    insert(19);
+    insert(23);
+    insert(192);
+    insert(127);
+    insert(261);
+    insert(192);
+    insert(142);
+    insert(162);
 
-int main(){
-init();
-insert(20);
-insert(19);
-insert(23);
-insert(192);
-insert(127);
-insert(261);
-insert(192);
-insert(142);
-insert(162);
+    print();
 
-print();
+    delete(19); 
+
+    print();
+
+    return 0;
 }
