@@ -1,0 +1,31 @@
+#include<stdio.h>
+int main(){
+    int n;
+    printf("Enter the no.of Digits in Main Pattern ");
+    scanf("%d",&n);
+    int a[n];
+    printf("Enter the elements ");
+    for(int i=0;i<n;i++){
+        scanf("%d",&a[i]);
+    }
+    int k;
+    printf("Enter no.of Digits in Matching pattern ");
+    scanf("%d",&k);
+    int b[k];
+    printf("Enter Matching pattern Elements ");
+    for(int i=0;i<k;i++){
+        scanf("%d",&b[i]);
+    }
+    for(int i=0;i<=n-k;i++){
+        int match = 0;
+        for(int j=0;j<k;j++){
+            if(a[i+j] != b[j]){
+                match = 1;
+                break;
+            }
+        }
+        if(match == 0){
+            printf("Pattern Matches At index : %d\n",i);
+        }
+    }
+}
